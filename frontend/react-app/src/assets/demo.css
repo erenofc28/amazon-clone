@@ -1,0 +1,11 @@
+.hi{
+    /* border:solid black ; */
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    margin: 30px;
+}
+
+input{
+    width: 260px;
+}
