@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import "./home.css";
 import Prodcut from "./prodcut";
-import { json, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const Home = () => {
 
@@ -12,7 +12,7 @@ const Home = () => {
   const [cartFromDbb,setCartFromDbb] = useState([]);
    const [newData,setNewData ] = useState([])
  const [search,setSearch] = useState("")
- const [myData,setMyData] = useState([
+ const myData = [
   {
     image:"https://m.media-amazon.com/images/I/61nxQ62qglL._AC_UL320_.jpg",
     title:"Oneplus Nord CE4",
@@ -82,7 +82,7 @@ const Home = () => {
     id:8,
    
     }
-])
+]
 
 const [myData2,setMyData2] = useState([
   {
@@ -168,9 +168,9 @@ const [myData2,setMyData2] = useState([
    const billy =    axios.get('https://server-for-amazon-clone.onrender.com/addProducts/')
  billy.then((dat) => {
   setNewData(
-    dat.data.data.filter((dat) => {
+    dat.data.data.filter((dat :{email:string}) => {
       if (
-        JSON.parse(localStorage.getItem("userInformation")).email == dat.email
+        JSON.parse(localStorage.getItem("userInformation") || '{}').email == dat.email
       ) {
         return dat
       }
@@ -185,15 +185,15 @@ callme()
   
   },[])
 
-  // console.log('my new data fro add',newData);
+  console.log('my new data fro add',myAccount);
   
 
-  const paraHandler = (email)=>{
+  const paraHandler = (email: unknown)=>{
 
     const cartfromDb = axios.get("https://server-for-amazon-clone.onrender.com/addCart/");
     cartfromDb.then((dat) => {
       setCartFromDbb(
-        dat.data.data.filter((dat) => {
+        dat.data.data.filter((dat: { email: unknown; }) => {
           if (
              email ==dat.email
           ) {
@@ -227,9 +227,9 @@ callme()
 
         bb.push(data.data.data);
         console.log(bb);
-        const myacc = bb[0].filter((dat) => {
+        const myacc = bb[0].filter((dat :{email:string}) => {
           if (
-            JSON.parse(localStorage.getItem("userInformation")).email ==
+            JSON.parse(localStorage.getItem("userInformation")  || '{}').email ==
             dat.email
           ) {
             return dat;
@@ -239,7 +239,7 @@ callme()
         setMyAccount(myacc[0]);
         
         
-        JSON.parse(localStorage.getItem("userInformation")) 
+        JSON.parse(localStorage.getItem("userInformation") || '{}') 
     })}
 // console.log("my acc ",myAccount.name);
 
@@ -252,7 +252,7 @@ callme()
 
   useEffect(()=>{
     const check = ()=>{
-      if(!JSON.parse(localStorage.getItem("userInformation")))
+      if(!JSON.parse(localStorage.getItem("userInformation") || '{}'))
       {
         localStorage.setItem('userInformation',JSON.stringify({
           name:"Guest",
@@ -321,7 +321,7 @@ callme()
           <div className="right_container">
             <div
               className={
-                JSON.parse(localStorage.getItem("userInformation"))
+                JSON.parse(localStorage.getItem("userInformation") || '{}')
                   ? "hello h"
                   : "hello"
               }
@@ -330,16 +330,16 @@ callme()
 {/* <button className="btn_for_logging_in"> */}
   
     <a className="a_orders_1">Hello </a>  
-  {JSON.parse(localStorage.getItem("userInformation")) ? (
+  {JSON.parse(localStorage.getItem("userInformation") || "{}") ? (
                 <a href="" onClick={()=>{
-                  JSON.parse(localStorage.getItem("userInformation")).name=="Guest"?navigate('login'): 
+                  JSON.parse(localStorage.getItem("userInformation") || '{}').name=="Guest"?navigate('login'): 
                     localStorage.setItem('userInformation',JSON.stringify({
                     name:"Guest",
                     email:"unknown"   }))
            
 
                 }}  className="a_orders_2">
-                  {JSON.parse(localStorage.getItem("userInformation")).name}
+                  {JSON.parse(localStorage.getItem("userInformation") || '{}').name}
                 </a>
               ) : (
                 <a href="/login" className="a_orders_2">guest</a>
@@ -353,7 +353,7 @@ callme()
              {/* <p className="first_p">Your</p> */}
              {/* <p className="second_p">Orders</p> */}
             <a href="" className="a_orders_1">Your </a>    
-    {JSON.parse(localStorage.getItem("userInformation"))?  <a href={JSON.parse(localStorage.getItem("userInformation")).name == "Guest"?"/":"/orders"} className="a_orders_2">Orders  </a>:  <a href={"/"} className="a_orders_2">Orders  </a>     }    
+    {JSON.parse(localStorage.getItem("userInformation")  || '{}')?  <a href={JSON.parse(localStorage.getItem("userInformation")  || '{}').name == "Guest"?"/":"/orders"} className="a_orders_2">Orders  </a>:  <a href={"/"} className="a_orders_2">Orders  </a>     }    
              
             </div>
 
@@ -418,7 +418,7 @@ callme()
 
 
 
-          {newData.length>0?newData.map((da)=>{
+          {newData.length>0?newData.map((da:{image:string; title:string; price:number; rating:number;_id:string})=>{
 
 return(<>
           <Prodcut

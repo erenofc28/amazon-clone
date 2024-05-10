@@ -1,20 +1,20 @@
 
-import React, { useEffect, useState } from 'react'
+import { MouseEvent, useEffect, useState } from 'react'
 import './home.css'
-import Prodcut from './prodcut';
-import { useStateValue } from '../stateProvider';
+// import Prodcut from './prodcut';
+// import { useStateValue } from '../stateProvider';
 import { useNavigate } from 'react-router-dom';
 import './login.css'
 import axios from 'axios';
 
 const AddProduct = () => {
-  const [{basket}] = useStateValue();
+  // const [{basket}] = useStateValue();
   const navigate = useNavigate();
 
   const [title,setTitle]=useState("");
   const [ image,setImage ]=useState("");
-  const [ price,setPrice ]=useState(0);
-  const [ rating,setRating ]=useState(0);
+  const [ price,setPrice ]=useState("");
+  const [ rating,setRating ]=useState("");
   const [newData,setNewData]=useState([]);
 
   
@@ -23,9 +23,9 @@ const AddProduct = () => {
    const billy =    axios.get('https://server-for-amazon-clone.onrender.com/addProducts/')
  billy.then((dat) => {
   setNewData(
-    dat.data.data.filter((dat) => {
+    dat.data.data.filter((dat:{email:string}) => {
       if (
-        JSON.parse(localStorage.getItem("userInformation")).email == dat.email
+        JSON.parse(localStorage.getItem("userInformation") || '{}').email == dat.email
       ) {
         return dat
       }
@@ -44,11 +44,11 @@ callme()
 
 let energy = false;
 
-  const AddProductToDB=(e)=>{
+  const AddProductToDB=(e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>)=>{
       e.preventDefault();
-    if(title.length>0 && image.length>0 && price.length>0 && rating.length>0)
-    {
-      energy = true;
+    if(title.length>0 && image.length>0 &&  price && rating)
+    { 
+        energy = true;
     }
  console.log(energy)
 
@@ -61,7 +61,7 @@ let energy = false;
 
 axios.post("https://server-for-amazon-clone.onrender.com/addProducts",
 { 
-  email:JSON.parse(localStorage.getItem("userInformation")).email,
+  email:JSON.parse(localStorage.getItem("userInformation") || '{}').email,
   title,
   image,
   price,
@@ -84,7 +84,7 @@ navigate('/')
 <div className="logo leo"  >
   <button className='btn_for_delete' onClick={()=>{
     if(newData.length>0){
-         newData.map((dat)=>{
+         newData.map((dat:{_id:string})=>{
 
       axios.delete("https://server-for-amazon-clone.onrender.com/addProducts/"+dat._id)
     })

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./home.css";
-import { useStateValue } from "../stateProvider";
+// import { useStateValue } from "../stateProvider";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Address from "./address";
+// import Address from "./address";
 
 const Checkout = () => {
   const [currUser, setCurrUser] = useState([]);
@@ -20,7 +20,7 @@ const Checkout = () => {
       setCartFromDb(
         dat.data.data.filter((dat: { email: unknown; }) => {
           if (
-            JSON.parse(localStorage.getItem("userInformation")).email ==
+            JSON.parse(localStorage.getItem("userInformation") || '{}').email ==
             dat.email
           ) {
             return dat;
@@ -41,7 +41,7 @@ const Checkout = () => {
         setCartFromDb(
           dat.data.data.filter((dat: { email: unknown; }) => {
             if (
-              JSON.parse(localStorage.getItem("userInformation")).email ==
+              JSON.parse(localStorage.getItem("userInformation") || '{}').email ==
               dat.email
             ) {
               return dat;
@@ -65,10 +65,10 @@ const Checkout = () => {
     const check = () => {
       //  const values =
 
-      setCurrUser(JSON.parse(localStorage.getItem("userInformation")));
+      setCurrUser(JSON.parse(localStorage.getItem("userInformation") || '{}'));
       console.log(
         "this is real",
-        JSON.parse(localStorage.getItem("userInformation"))
+        JSON.parse(localStorage.getItem("userInformation") || '{}')
       );
     };
     check();
@@ -82,14 +82,14 @@ const Checkout = () => {
       });
 
       console.log("data", currUser);
-      const myArray = imp.filter((dat) => {
+      const myArray = imp.filter((dat:{email:string; }) => {
         if (dat.email == currUser.email) {
           return dat;
         }
       });
 
 
-      // console.log("crruser",currUser);
+      console.log("crruser",myArray);
 
       // dispatch({
       //   type:"ADD_TO_BASKET",
@@ -106,10 +106,10 @@ const Checkout = () => {
 
 
     addToDb();
-  }, []);
+  }, [currUser, imp]);
 
   const navigate = useNavigate();
-  const [{ basket }, dispatch] = useStateValue();
+  // const [{ basket }, dispatch] = useStateValue();
   // console.log('hi',basket.price)
 
   // const remove = (e: { preventDefault: () => void; }, id: unknown) => {
@@ -121,16 +121,18 @@ const Checkout = () => {
   //   });
   // };
 
-  let pp = cartFromDb.map((dataa) => {
+  const pp = cartFromDb.map((dataa:{price:number}) => {
     return dataa.price;
   });
   // console.log(pp)
   let ans = 0;
-  let filterd = pp.filter((dat) => {
+  const filterd = pp.filter((dat) => {
     ans += Number(dat);
     // console.log("dat", dat);
     return ans;
   });
+  console.log(filterd);
+  
 
   // <Address total={"hii"} />
 
@@ -159,9 +161,9 @@ const Checkout = () => {
           <div className="right_container">
             <div className="hello">
             <a className="a_orders_1">Hello </a>  
-  {JSON.parse(localStorage.getItem("userInformation")) ? (
+  {JSON.parse(localStorage.getItem("userInformation") || '{}') ? (
                 <a href="/" className="a_orders_2">
-                  {JSON.parse(localStorage.getItem("userInformation")).name}
+                  {JSON.parse(localStorage.getItem("userInformation") || '{}').name}
                 </a>
               ) : (
                 <a href="/" className="a_orders_2">guest</a>
@@ -170,7 +172,7 @@ const Checkout = () => {
 
             <div className="orders">
             <a href="" className="a_orders_1">Your </a>    
-        <a href={JSON.parse(localStorage.getItem("userInformation"))?"orders":"/"} className="a_orders_2">Orders  </a>    
+        <a href={JSON.parse(localStorage.getItem("userInformation") || '{}')?"orders":"/"} className="a_orders_2">Orders  </a>    
              
             </div>
             <div className="basket">
@@ -208,7 +210,7 @@ const Checkout = () => {
         <div className="shopping_ccart">
           <h2>Shopping Cart</h2>
 
-          {cartFromDb?cartFromDb.map((dat) => {
+          {cartFromDb?cartFromDb.map((dat: { image: string; title:string; price:number; _id:string; }) => {
               return (
                 <>
                   <div className="pro">
@@ -217,7 +219,7 @@ const Checkout = () => {
                       <h4>{dat.title}</h4>
                       <p>{"₹" + dat.price}</p>
                       <button
-                        onClick={(e) => {
+                        onClick={() => {
                           // remove(e, dat.id);
                           deleteItem(dat._id)
                           deleteItem(dat._id)

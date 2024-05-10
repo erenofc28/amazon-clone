@@ -30,7 +30,7 @@ const Login = () => {
     };
 
     callme();
-  }, []);
+  }, [arrayFromDb]);
 
   console.log("adad",arrayFromDb.map((d)=>{return d}))
 
@@ -41,7 +41,7 @@ const Login = () => {
   let passvali = false;
   let namevali = false
 
-    arrayFromDb.map((dat) => {
+    arrayFromDb.map((dat:{name:string; email:string; password:string; }) => {
      if( dat.name == name)
        
     {   setName(dat.name)

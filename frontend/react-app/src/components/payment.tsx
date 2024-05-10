@@ -1,57 +1,61 @@
 import React, { useEffect, useState } from "react";
 import "./home.css";
-import Prodcut from "./prodcut";
-import { useStateValue } from "../stateProvider";
+// import Prodcut from "./prodcut";
+// import { useStateValue } from "../stateProvider";
 import { useNavigate } from "react-router-dom";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { CardElement,} from "@stripe/react-stripe-js";
 
 import axios from "axios";
-import { Alert } from "@material-ui/lab";
+// import { Alert } from "@material-ui/lab";
 const Payment = () => {
-  const [{ basket }, dispatch] = useStateValue();
-  const [{ address }] = useStateValue();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // const [{ basket }] = useStateValue();
+  // const [{ address }] = useStateValue();
   const [cartFromDb, setCartFromDb] = useState([]);
   const navigate = useNavigate();
-  const elements = useElements();
-  const stripe = useStripe();
+  // const elements = useElements();
+  // const stripe = useStripe();
   const [itemDelete, setItemDelete] = useState([]);
 
-  let adddress = cartFromDb.map((dat) => {
-    if (dat.address) {
-      return dat.address[0];
-    }
-  });
+  // const adddress = cartFromDb.map((dat:{address:unknown}) => {
+  //   if (dat.address) {
+  //     return dat.address[0];
+  //   }
+  // });
 
-  let dummy = adddress.map((da) => {
-    return da;
-  });
+  // const dummy = adddress.map((da) => {
+  //   return da;
+  // });
+// console.log('dummy',dummy);
 
-  let cartt = cartFromDb.map((da) => {
+  const cartt = cartFromDb.map((da:{products:unknown}) => {
     return da.products;
   });
 
   console.log(cartt);
 
-  let pp = basket.map((dataa) => {
-    return dataa.price;
-  });
+  // const pp = basket.map((dataa: { price: unknown; }) => {
+  //   return dataa.price;
+  // });
   // console.log(pp)
   let ans = 0;
-  let filterd = pp.filter((dat) => {
-    ans += Number(dat);
-    console.log("dat", dat);
-    //  setTotal(ans)
-    return ans;
-  });
-
-  const productToBeUpdated = cartFromDb.map((dat) => {
+  // const filterd = pp.filter((dat: unknown) => {
+  //   ans += Number(dat);
+  //   console.log("dat", dat);
+  //   //  setTotal(ans)
+  //   return ans;
+  // });
+//  console.log(filterd);
+ 
+  const productToBeUpdated = cartFromDb.map((dat:{_id:string}) => {
     return dat._id;
   });
+console.log(productToBeUpdated);
 
   console.log("idddd", cartFromDb);
 
-  const totalAmounttt = JSON.parse(localStorage.getItem("totalAmount")).total;
-  const itemsCounttt = JSON.parse(localStorage.getItem("itemsCount")).count;
+  const totalAmounttt = JSON.parse(localStorage.getItem("totalAmount") || '{}').total;
+  const itemsCounttt = JSON.parse(localStorage.getItem("itemsCount") || '{}').count;
   console.log("count", itemsCounttt);
   console.log("total amount", totalAmounttt);
 
@@ -60,9 +64,9 @@ const Payment = () => {
 
     cartfromDb.then((dat) => {
       setCartFromDb(
-        dat.data.data.filter((dat) => {
+        dat.data.data.filter((dat: { email: unknown; products: string | unknown[]; }) => {
           if (
-            JSON.parse(localStorage.getItem("userInformation")).email ==
+            JSON.parse(localStorage.getItem("userInformation")   || '{}').email ==
               dat.email &&
             dat.products.length == itemsCounttt
           ) {
@@ -71,15 +75,15 @@ const Payment = () => {
         })
       );
     });
-  }, []);
+  }, [itemsCounttt]);
 
   useEffect(() => {
     const call = () => {
       axios.get("https://server-for-amazon-clone.onrender.com/addCart/").then((dat) => {
         setItemDelete(
-          dat.data.data.filter((dat) => {
+          dat.data.data.filter((dat: { email: unknown; }) => {
             if (
-              JSON.parse(localStorage.getItem("userInformation")).email ==
+              JSON.parse(localStorage.getItem("userInformation")  || '{}').email ==
               dat.email
             ) {
               return dat;
@@ -100,19 +104,19 @@ const Payment = () => {
 
   // console.log(dummy);
 
-  const nameee = JSON.parse(localStorage.getItem("address")).name;
-  const flattty = JSON.parse(localStorage.getItem("address")).flat;
-  const areaaay = JSON.parse(localStorage.getItem("address")).area;
-  const landmakkky = JSON.parse(localStorage.getItem("address")).landmak;
-  const townnny = JSON.parse(localStorage.getItem("address")).town;
-  const stateeey = JSON.parse(localStorage.getItem("address")).states;
+  const nameee = JSON.parse(localStorage.getItem("address") || '{}').name;
+  const flattty = JSON.parse(localStorage.getItem("address") || '{}').flat;
+  const areaaay = JSON.parse(localStorage.getItem("address") || '{}').area;
+  const landmakkky = JSON.parse(localStorage.getItem("address") || '{}').landmak;
+  const townnny = JSON.parse(localStorage.getItem("address") || '{}').town;
+  const stateeey = JSON.parse(localStorage.getItem("address") || '{}').states;
   const phoneNumberrry = JSON.parse(
-    localStorage.getItem("address")
+    localStorage.getItem("address") || '{}'
   ).phoneNumber;
 
   console.log("itenss to delete",itemDelete);
   
-  const confirmPayment = async (e) => {
+  const confirmPayment = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
 
     //   cartFromDb.map(()=>{
@@ -125,7 +129,7 @@ const Payment = () => {
       price:totalAmounttt,
       products:itemDelete,
       payment:true,
-      email:JSON.parse(localStorage.getItem("userInformation")).email ,
+      email:JSON.parse(localStorage.getItem("userInformation") || '{}').email ,
       address:[{
         name:nameee,
         phoneNumber:phoneNumberrry,
@@ -139,15 +143,15 @@ const Payment = () => {
   
     })
 
-    itemDelete.map((dat) => {
+    itemDelete.map((dat:{_id:unknown}) => {
       axios.delete("https://server-for-amazon-clone.onrender.com/addCart/" + dat._id);
     });
     const cartfromDb = axios.get("https://server-for-amazon-clone.onrender.com/orders/");
 
     cartfromDb.then((dat) => {
-      dat.data.data.filter((dat) => {
+      dat.data.data.filter((dat: { email: unknown; _id: string; }) => {
         if (
-          JSON.parse(localStorage.getItem("userInformation")).email == dat.email
+          JSON.parse(localStorage.getItem("userInformation") || '{}').email == dat.email
         ) {
           axios.put("https://server-for-amazon-clone.onrender.com/orders/" + dat._id, {
             payment: true,
@@ -168,17 +172,21 @@ const Payment = () => {
         return dataa;
       });
       // console.log(pp)
-      let anss = 0;
+      const anss = 0;
+      console.log(anss);
       const filterddd = total.filter((dat) => {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         ans += Number(dat);
         console.log("dat", filterddd);
         //  setTotal(ans)
         return ans;
       });
     };
-
+ 
     callme();
   }, []);
+
+  
 
 
 
@@ -212,9 +220,9 @@ const Payment = () => {
           <div className="right_container">
             <div className="hello">
             <a className="a_orders_1">Hello </a>  
-  {JSON.parse(localStorage.getItem("userInformation")) ? (
+  {JSON.parse(localStorage.getItem("userInformation") || '{}') ? (
                 <a href="/" className="a_orders_2">
-                  {JSON.parse(localStorage.getItem("userInformation")).name}
+                  {JSON.parse(localStorage.getItem("userInformation")  || '{}').name}
                 </a>
               ) : (
                 <a href="/" className="a_orders_2">guest</a>
@@ -223,7 +231,7 @@ const Payment = () => {
 
             <div className="orders">
             <a href="" className="a_orders_1">Your </a>    
-        <a href={JSON.parse(localStorage.getItem("userInformation"))?"orders":"/"} className="a_orders_2">Orders  </a>    
+        <a href={JSON.parse(localStorage.getItem("userInformation")  || '{}')?"orders":"/"} className="a_orders_2">Orders  </a>    
              
             </div>
 
@@ -300,7 +308,7 @@ const Payment = () => {
             <h4>Your Order</h4>
 
             {itemDelete.length > 0 ? (
-              itemDelete.map((dat) => {
+              itemDelete.map((dat:{image:string; title:string; price:number}) => {
                 // console.log("data",cartt[0].length);
 
                 return (

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useStateValue } from "../stateProvider";
+import { useEffect, useState } from "react";
+// import { useStateValue } from "../stateProvider";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -17,7 +17,7 @@ function SignUp() {
   const [arrayFromDb, setArrayFromDb] = useState([]);
 
   const navigate = useNavigate();
-  const [{user},dispatch] = useStateValue();
+  // const [dispatch] = useStateValue();
   // const [{user}] = useStateValue();
 
   useEffect(() => {
@@ -58,7 +58,7 @@ function SignUp() {
     console.log("already", alreadyEmail);
     let forr = true;
 
-    arrayFromDb.map((dat) => {
+    arrayFromDb.map((dat:{email:string}) => {
       if (dat.email === email) {
         valid = false;
         forr = false;
@@ -80,11 +80,11 @@ function SignUp() {
         })
         .then(() => {
           console.log("account successfully created");
-          dispatch({
-            type: "User",
-            name: name,
-            email: email,
-          });
+          // dispatch({
+          //   type: "User",
+          //   name: name,
+          //   email: email,
+          // });
           localStorage.setItem(
             "userInformation",
             JSON.stringify({

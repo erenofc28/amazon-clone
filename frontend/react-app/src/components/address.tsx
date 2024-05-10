@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import  { MouseEvent, useEffect, useState } from 'react'
 import './home.css'
-import Prodcut from './prodcut';
-import { useStateValue } from '../stateProvider';
+// import Prodcut from './prodcut';
+// import { useStateValue } from '../stateProvider';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Address = () => {
-    const [{basket}, dispatch ] = useStateValue();
+    // const [{basket}, dispatch ] = useStateValue();
     const navigate = useNavigate();
 
     const[name,setName]=useState("");
@@ -24,9 +24,9 @@ useEffect(()=>{
 
   cartfromDb.then((dat) => {
     setCartFromDb(
-      dat.data.data.filter((dat) => {
+      dat.data.data.filter((dat:{email:string}) => {
         if (
-          JSON.parse(localStorage.getItem("userInformation")).email ==
+          JSON.parse(localStorage.getItem("userInformation")|| '{}').email ==
           dat.email
         ) {
           return dat;
@@ -41,19 +41,20 @@ useEffect(()=>{
 },[])
 // console.log( "total",cartFromDb);
 
-let pp = cartFromDb.map((dataa) => {
+const pp = cartFromDb.map((dataa:{price:number}) => {
   return dataa.price;
 });
 // console.log(pp)
 let ans = 0;
-let filterd = pp.filter((dat) => {
+const filterd = pp.filter((dat) => {
   ans += Number(dat);
   console.log("dat", dat);
   return ans;
 });
+console.log(filterd);
 
 
-let products = cartFromDb.map((dat)=>{
+const products = cartFromDb.map((dat:{image:string; price:number; title:string;})=>{
   return ({image:dat.image,
            price:dat.price,
            title:dat.title
@@ -67,7 +68,7 @@ let products = cartFromDb.map((dat)=>{
 console.log("total amount",products);
 
   
-const addAddress =(e)=>{
+const addAddress =(e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>)=>{
     e.preventDefault();
     localStorage.setItem("address",JSON.stringify({
       name:name,
@@ -124,9 +125,9 @@ const result =()=>{
 
 <div className="hello">
 <a className="a_orders_1">Hello </a>  
-  {JSON.parse(localStorage.getItem("userInformation")) ? (
+  {JSON.parse(localStorage.getItem("userInformation") || '{}') ? (
                 <a href="/" className="a_orders_2">
-                  {JSON.parse(localStorage.getItem("userInformation")).name}
+                  {JSON.parse(localStorage.getItem("userInformation") || '{}').name}
                 </a>
               ) : (
                 <a href="/" className="a_orders_2">guest</a>
@@ -135,7 +136,7 @@ const result =()=>{
 
 <div className="orders">
 <a href="" className="a_orders_1">Your </a>    
-        <a href={JSON.parse(localStorage.getItem("userInformation"))?"orders":"/"} className="a_orders_2">Orders  </a>    
+        <a href={JSON.parse(localStorage.getItem("userInformation") || '{}')?"orders":"/"} className="a_orders_2">Orders  </a>    
              
       </div>
 
