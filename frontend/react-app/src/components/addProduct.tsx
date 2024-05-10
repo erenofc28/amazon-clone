@@ -20,7 +20,7 @@ const AddProduct = () => {
   
   useEffect(()=>{
     const callme =()=>{
-   const billy =    axios.get('http://localhost:3000/addProducts/')
+   const billy =    axios.get('https://server-for-amazon-clone.onrender.com/addProducts/')
  billy.then((dat) => {
   setNewData(
     dat.data.data.filter((dat) => {
@@ -59,7 +59,7 @@ let energy = false;
     if(energy){
       
 
-axios.post("http://localhost:3000/addProducts",
+axios.post("https://server-for-amazon-clone.onrender.com/addProducts",
 { 
   email:JSON.parse(localStorage.getItem("userInformation")).email,
   title,
@@ -86,7 +86,7 @@ navigate('/')
     if(newData.length>0){
          newData.map((dat)=>{
 
-      axios.delete("http://localhost:3000/addProducts/"+dat._id)
+      axios.delete("https://server-for-amazon-clone.onrender.com/addProducts/"+dat._id)
     })
     navigate('/')
     }

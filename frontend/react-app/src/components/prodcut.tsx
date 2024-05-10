@@ -27,7 +27,7 @@ const Prodcut = ({ image, title, price, ratings, id,paraHandler }) => {
   const addToDb = () => {
 console.log("curr user",currUser.email);
 
-  axios.post("http://localhost:3000/addCart/",{
+  axios.post("https://server-for-amazon-clone.onrender.com/addCart/",{
     email:currUser.email,
     title:title,
     image:image,
@@ -40,7 +40,7 @@ console.log("curr user",currUser.email);
 
 
     
-      const cartfromDb = axios.get("http://localhost:3000/addCart/");
+      const cartfromDb = axios.get("https://server-for-amazon-clone.onrender.com/addCart/");
       cartfromDb.then((dat) => {
         setCartFromDb(
           dat.data.data.filter((dat) => {

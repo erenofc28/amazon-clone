@@ -11,7 +11,7 @@ const OrderDisplay = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     const callme = () => {
-      const cartfromdb = axios.get("http://localhost:3000/orders");
+      const cartfromdb = axios.get("https://server-for-amazon-clone.onrender.com/orders");
       cartfromdb.then((dat) => {
         setOrdersDb(
           dat.data.data.filter((dat) => {
@@ -32,7 +32,7 @@ const OrderDisplay = () => {
 
   useEffect(() => {
     const callme = () => {
-      const cartfromDb = axios.get("http://localhost:3000/addCart/");
+      const cartfromDb = axios.get("https://server-for-amazon-clone.onrender.com/addCart/");
       cartfromDb.then((dat) => {
         setCartFromDb(
           dat.data.data.filter((dat) => {

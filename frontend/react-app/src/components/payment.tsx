@@ -56,7 +56,7 @@ const Payment = () => {
   console.log("total amount", totalAmounttt);
 
   useEffect(() => {
-    const cartfromDb = axios.get("http://localhost:3000/orders/");
+    const cartfromDb = axios.get("https://server-for-amazon-clone.onrender.com/orders/");
 
     cartfromDb.then((dat) => {
       setCartFromDb(
@@ -75,7 +75,7 @@ const Payment = () => {
 
   useEffect(() => {
     const call = () => {
-      axios.get("http://localhost:3000/addCart/").then((dat) => {
+      axios.get("https://server-for-amazon-clone.onrender.com/addCart/").then((dat) => {
         setItemDelete(
           dat.data.data.filter((dat) => {
             if (
@@ -121,7 +121,7 @@ const Payment = () => {
 
     // })
 
-    axios.post("http://localhost:3000/orders/",{
+    axios.post("https://server-for-amazon-clone.onrender.com/orders/",{
       price:totalAmounttt,
       products:itemDelete,
       payment:true,
@@ -140,16 +140,16 @@ const Payment = () => {
     })
 
     itemDelete.map((dat) => {
-      axios.delete("http://localhost:3000/addCart/" + dat._id);
+      axios.delete("https://server-for-amazon-clone.onrender.com/addCart/" + dat._id);
     });
-    const cartfromDb = axios.get("http://localhost:3000/orders/");
+    const cartfromDb = axios.get("https://server-for-amazon-clone.onrender.com/orders/");
 
     cartfromDb.then((dat) => {
       dat.data.data.filter((dat) => {
         if (
           JSON.parse(localStorage.getItem("userInformation")).email == dat.email
         ) {
-          axios.put("http://localhost:3000/orders/" + dat._id, {
+          axios.put("https://server-for-amazon-clone.onrender.com/orders/" + dat._id, {
             payment: true,
           });
         }

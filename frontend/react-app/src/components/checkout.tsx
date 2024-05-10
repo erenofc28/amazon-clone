@@ -13,9 +13,9 @@ const Checkout = () => {
   const deleteItem = (id,e)=>{
     e.preventDefault();
    
-    axios.delete("http://localhost:3000/addCart/"+id )
+    axios.delete("https://server-for-amazon-clone.onrender.com/addCart/"+id )
 
-    const cartFromDb = axios.get("http://localhost:3000/addCart/");
+    const cartFromDb = axios.get("https://server-for-amazon-clone.onrender.com/addCart/");
     cartFromDb.then((dat) => {
       setCartFromDb(
         dat.data.data.filter((dat) => {
@@ -34,7 +34,7 @@ const Checkout = () => {
 
   useEffect(() => {
     const callme = () => {
-      const cartFromDb = axios.get("http://localhost:3000/addCart/");
+      const cartFromDb = axios.get("https://server-for-amazon-clone.onrender.com/addCart/");
       cartFromDb.then((dat) => {
         setCartFromDb(
           dat.data.data.filter((dat) => {
@@ -74,7 +74,7 @@ const Checkout = () => {
 
   useEffect(() => {
     const addToDb = () => {
-      const datFromDb = axios.get("http://localhost:3000/signUp");
+      const datFromDb = axios.get("https://server-for-amazon-clone.onrender.com/signUp");
       datFromDb.then((data) => {
         setImp(data.data.data);
       });

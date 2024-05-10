@@ -23,7 +23,7 @@ function SignUp() {
 
   useEffect(()=>{
     const callme=()=>{
-       const dataFromDb = axios.get('http://localhost:3000/signUp');
+       const dataFromDb = axios.get('https://server-for-amazon-clone.onrender.com/signUp');
     dataFromDb
     .then((data)=>{
       setArrayFromDb(data.data.data)
@@ -80,7 +80,7 @@ let valid=false;
 
     
     if(valid){
-      axios.post('http://localhost:3000/signUp',{
+      axios.post('https://server-for-amazon-clone.onrender.com/signUp',{
         name:name,
         email:email,
         password:pass

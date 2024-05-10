@@ -20,7 +20,7 @@ const[cartFromDb,setCartFromDb] = useState([]);
 
 
 useEffect(()=>{
-  const cartfromDb = axios.get("http://localhost:3000/addCart/")
+  const cartfromDb = axios.get("https://server-for-amazon-clone.onrender.com/addCart/")
 
   cartfromDb.then((dat) => {
     setCartFromDb(

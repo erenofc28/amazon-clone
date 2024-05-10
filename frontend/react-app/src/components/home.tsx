@@ -165,7 +165,7 @@ const [myData2,setMyData2] = useState([
 
   useEffect(()=>{
     const callme =()=>{
-   const billy =    axios.get('http://localhost:3000/addProducts/')
+   const billy =    axios.get('https://server-for-amazon-clone.onrender.com/addProducts/')
  billy.then((dat) => {
   setNewData(
     dat.data.data.filter((dat) => {
@@ -190,7 +190,7 @@ callme()
 
   const paraHandler = (email)=>{
 
-    const cartfromDb = axios.get("http://localhost:3000/addCart/");
+    const cartfromDb = axios.get("https://server-for-amazon-clone.onrender.com/addCart/");
     cartfromDb.then((dat) => {
       setCartFromDbb(
         dat.data.data.filter((dat) => {
@@ -219,7 +219,7 @@ console.log('emailll', cartFromDbb )
 
   useEffect(() => {
     const callme = () => {
-      const dataFromDb = axios.get("http://localhost:3000/signUp");
+      const dataFromDb = axios.get("https://server-for-amazon-clone.onrender.com/signUp");
       console.log("dataa", dataFromDb);
 
       dataFromDb.then((data) => {
