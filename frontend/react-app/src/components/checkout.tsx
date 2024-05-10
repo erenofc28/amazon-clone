@@ -10,15 +10,15 @@ const Checkout = () => {
   const [imp, setImp] = useState([]);
   const [cartFromDb,setCartFromDb] = useState([]);
 
-  const deleteItem = (id,e)=>{
-    e.preventDefault();
+  const deleteItem = (id: string)=>{
+    // e.preventDefault();
    
     axios.delete("https://server-for-amazon-clone.onrender.com/addCart/"+id )
 
     const cartFromDb = axios.get("https://server-for-amazon-clone.onrender.com/addCart/");
     cartFromDb.then((dat) => {
       setCartFromDb(
-        dat.data.data.filter((dat) => {
+        dat.data.data.filter((dat: { email: unknown; }) => {
           if (
             JSON.parse(localStorage.getItem("userInformation")).email ==
             dat.email
@@ -28,6 +28,8 @@ const Checkout = () => {
         })
       )
     });
+
+    // window.location.reload();
     
   }
 
@@ -37,7 +39,7 @@ const Checkout = () => {
       const cartFromDb = axios.get("https://server-for-amazon-clone.onrender.com/addCart/");
       cartFromDb.then((dat) => {
         setCartFromDb(
-          dat.data.data.filter((dat) => {
+          dat.data.data.filter((dat: { email: unknown; }) => {
             if (
               JSON.parse(localStorage.getItem("userInformation")).email ==
               dat.email
@@ -50,7 +52,7 @@ const Checkout = () => {
     };
     callme();
   }, []);
-  console.log("mah cart ", cartFromDb);
+  // console.log("mah cart ", cartFromDb);
 
 
 
@@ -87,7 +89,7 @@ const Checkout = () => {
       });
 
 
-      console.log(myArray);
+      // console.log("crruser",currUser);
 
       // dispatch({
       //   type:"ADD_TO_BASKET",
@@ -110,14 +112,14 @@ const Checkout = () => {
   const [{ basket }, dispatch] = useStateValue();
   // console.log('hi',basket.price)
 
-  const remove = (e, id) => {
-    console.log("insdie", id);
-    e.preventDefault();
-    dispatch({
-      type: "remove_from_basket",
-      id: id,
-    });
-  };
+  // const remove = (e: { preventDefault: () => void; }, id: unknown) => {
+  //   console.log("insdie", id);
+  //   e.preventDefault();
+  //   dispatch({
+  //     type: "remove_from_basket",
+  //     id: id,
+  //   });
+  // };
 
   let pp = cartFromDb.map((dataa) => {
     return dataa.price;
@@ -126,7 +128,7 @@ const Checkout = () => {
   let ans = 0;
   let filterd = pp.filter((dat) => {
     ans += Number(dat);
-    console.log("dat", dat);
+    // console.log("dat", dat);
     return ans;
   });
 
@@ -216,8 +218,9 @@ const Checkout = () => {
                       <p>{"₹" + dat.price}</p>
                       <button
                         onClick={(e) => {
-                          remove(e, dat.id);
-                          deleteItem(dat._id,e)
+                          // remove(e, dat.id);
+                          deleteItem(dat._id)
+                          deleteItem(dat._id)
                         }}
                       >
                         Remove

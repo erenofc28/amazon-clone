@@ -25,7 +25,7 @@ const Prodcut = ({ image, title, price, ratings, id,paraHandler }) => {
 
 
   const addToDb = () => {
-console.log("curr user",currUser.email);
+// console.log("curr user",currUser.email);
 
   axios.post("https://server-for-amazon-clone.onrender.com/addCart/",{
     email:currUser.email,
@@ -58,7 +58,7 @@ console.log("curr user",currUser.email);
     paraHandler(  JSON.parse(localStorage.getItem("userInformation")).email  )
 
   
-  console.log("mah cart " ,cartFromDb   );
+  // console.log("mah cart " ,cartFromDb   );
 
   
 
@@ -81,7 +81,10 @@ console.log("curr user",currUser.email);
           <p>{"₹" + price}</p>
           <button
             onClick={() => {
-              JSON.parse(localStorage.getItem("userInformation")).name=="Guest"?alert("Please log in to continue"): addToDb();
+              JSON.parse(localStorage.getItem("userInformation")).name=="Guest"?alert("Please log in to continue"):addToDb();
+               
+            
+            
           
             }}
           >

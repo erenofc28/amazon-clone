@@ -185,7 +185,7 @@ callme()
   
   },[])
 
-  console.log('my new data fro add',newData);
+  // console.log('my new data fro add',newData);
   
 
   const paraHandler = (email)=>{
@@ -204,7 +204,7 @@ callme()
     });
 
 
-console.log('emailll', cartFromDbb )
+// console.log('emailll', cartFromDbb )
 
 
 
@@ -220,7 +220,7 @@ console.log('emailll', cartFromDbb )
   useEffect(() => {
     const callme = () => {
       const dataFromDb = axios.get("https://server-for-amazon-clone.onrender.com/signUp");
-      console.log("dataa", dataFromDb);
+      // console.log("dataa", dataFromDb);
 
       dataFromDb.then((data) => {
         const bb = [];
@@ -241,7 +241,7 @@ console.log('emailll', cartFromDbb )
         
         JSON.parse(localStorage.getItem("userInformation")) 
     })}
-console.log("my acc ",myAccount.name);
+// console.log("my acc ",myAccount.name);
 
 callme()
   }, [])
@@ -279,11 +279,11 @@ callme()
 
     )
 
-    console.log("my data  2",myData2)
+    // console.log("my data  2",myData2)
     
 
   }
-  console.log("my data  2",myData2)
+  // console.log("my data  2",myData2)
 
 
   return (
