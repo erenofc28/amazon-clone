@@ -46,8 +46,7 @@ app.post("/addProducts/", (req, res) => {
 app.get("/", async (req, res) => {
   try {
     const value = await addProdcut.find();
-    res.status(201).send("home page")
-    // .json(value);
+    res.status(201).json(value);
   } catch (error) {
     res.status(404).json(error);
   }
