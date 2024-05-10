@@ -15,10 +15,12 @@ app.use(express.json());
 app.use(cors());
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(process.env.MONGO_URI,
+//   , {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// }
+);
 
 const port = 3000;
 
@@ -44,11 +46,13 @@ app.post("/addProducts/", (req, res) => {
 app.get("/", async (req, res) => {
   try {
     const value = await addProdcut.find();
-    res.status(201).json(value);
+    res.status(201).send("home page")
+    // .json(value);
   } catch (error) {
     res.status(404).json(error);
   }
 });
+
 
 app.post("/checkout/address/payment", async (req, res) => {
   const total = req.body.amount;
