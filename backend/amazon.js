@@ -9,10 +9,13 @@ const stripe = require("stripe")(
 const usersModel = require("./usersModel");
 const cartModel = require("./cartModel");
 const orderModel = require("./orderModel");
+const dotenv = require("dotenv");
+// const proccess = require("proccess")
 app.use(express.json());
 app.use(cors());
+dotenv.config();
 
-mongoose.connect("mongodb+srv://rcdanteff:dhinesh509509@cluster0.ogxjaoh.mongodb.net/amazon-clone?retryWrites=true&w=majority&appName=Cluster0", {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -37,8 +40,6 @@ app.post("/addProducts/", (req, res) => {
       alert("ERROR ! ", err);
     });
 });
-
-
 
 app.get("/", async (req, res) => {
   try {
@@ -105,24 +106,25 @@ app.get("/signUp", async (req, res) => {
 
 //   })
 
-app.put('/orders/:id',async(req,res)=>{
-  try {  
-  const id = req.params.id;
-  const payment = req.body.payment
-  const updated = await orderModel.findByIdAndUpdate(id,{payment},{new:true});
-  if (!updated) {
-      return res.status(404).json({message:"not found"})
-  } else {
-      return res.json(updated)
-  }
-      
+app.put("/orders/:id", async (req, res) => {
+  try {
+    const id = req.params.id;
+    const payment = req.body.payment;
+    const updated = await orderModel.findByIdAndUpdate(
+      id,
+      { payment },
+      { new: true }
+    );
+    if (!updated) {
+      return res.status(404).json({ message: "not found" });
+    } else {
+      return res.json(updated);
+    }
   } catch (error) {
-      console.log(error)
-      res.status(500).json({error})
+    console.log(error);
+    res.status(500).json({ error });
   }
-
-
-})
+});
 
 app.post("/addCart/", async (req, res) => {
   const email = req.body.email;
@@ -169,7 +171,6 @@ app.delete("/addCart/:id", async (req, res) => {
   }
 });
 
-
 app.delete("/addProducts/:id", async (req, res) => {
   try {
     const id = req.params.id;
@@ -180,7 +181,6 @@ app.delete("/addProducts/:id", async (req, res) => {
     res.status(500).json({ error });
   }
 });
-
 
 app.get("/addCart/", async (req, res) => {
   const data = await cartModel.find();
@@ -197,5 +197,6 @@ app.get("/addProducts/", async (req, res) => {
 });
 
 app.listen(port, () => {
+  console.log("envvvvv", process.env.MONGO_URI);
   console.log(`server is running on port ${port}`);
 });
