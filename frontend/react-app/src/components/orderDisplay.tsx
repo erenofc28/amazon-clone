@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { JSXElementConstructor, ReactElement, ReactNode, ReactPortal, useEffect, useState } from "react";
 import "./home.css";
-import Prodcut from "./prodcut";
-import { json, useNavigate } from "react-router-dom";
+// import Prodcut from "./prodcut";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const OrderDisplay = () => {
   const navigate = useNavigate();
   const [cartFromDb, setCartFromDb] = useState([]);
   const [ordersDb, setOrdersDb] = useState([]);
-  const [address, setAddress] = useState([]);
-  const [products, setProducts] = useState([]);
+
+  // const [products, setProducts] = useState([]);
   useEffect(() => {
     const callme = () => {
       const cartfromdb = axios.get("https://server-for-amazon-clone.onrender.com/orders");
       cartfromdb.then((dat) => {
         setOrdersDb(
-          dat.data.data.filter((dat) => {
+          dat.data.data.filter((dat:{email:string}) => {
             if (
-              JSON.parse(localStorage.getItem("userInformation")).email ==
+              JSON.parse(localStorage.getItem("userInformation")|| '{}').email ==
               dat.email
             ) {
               return dat;
@@ -35,9 +36,9 @@ const OrderDisplay = () => {
       const cartfromDb = axios.get("https://server-for-amazon-clone.onrender.com/addCart/");
       cartfromDb.then((dat) => {
         setCartFromDb(
-          dat.data.data.filter((dat) => {
+          dat.data.data.filter((dat:{email:string}) => {
             if (
-              JSON.parse(localStorage.getItem("userInformation")).email ==
+              JSON.parse(localStorage.getItem("userInformation") || '{}').email ==
               dat.email
             ) {
               return dat;
@@ -75,9 +76,9 @@ const OrderDisplay = () => {
           <div className="right_container">
             <div className="hello">
               <a className="a_orders_1">Hello </a>
-              {JSON.parse(localStorage.getItem("userInformation")) ? (
+              {JSON.parse(localStorage.getItem("userInformation")|| '{}') ? (
                 <a href="/" className="a_orders_2">
-                  {JSON.parse(localStorage.getItem("userInformation")).name}
+                  {JSON.parse(localStorage.getItem("userInformation")|| '{}').name}
                 </a>
               ) : (
                 <a href="/" className="a_orders_2">
@@ -92,7 +93,7 @@ const OrderDisplay = () => {
               </a>
               <a
                 href={
-                  JSON.parse(localStorage.getItem("userInformation"))
+                  JSON.parse(localStorage.getItem("userInformation")|| '{}')
                     ? "orders"
                     : "/"
                 }
@@ -140,7 +141,9 @@ const OrderDisplay = () => {
       <div className="main_2">
         <div className=" shopping_ccartt ">
        
-          {ordersDb?ordersDb.map((dat)=>{
+          {ordersDb?ordersDb.map((dat:{
+            products: any;address:any
+})=>{
 
 
 return(<>
@@ -149,14 +152,37 @@ return(<>
     
           <div className="shopping_cart">
             <h4>Shipping Address</h4>
-         
-                <p>{dat.address[0].name}</p>
+            {
+        
+            
+                  dat.address.map((d: {
+                    phoneNumber: ReactNode;
+                    state: ReactNode;
+                    town: ReactNode;
+                    landmark: ReactNode;
+                    area: ReactNode;
+                    flat: ReactNode; name: string; 
+})=>{ 
+                      
+                 return(<>
+                        <p>{d.name}</p>
+                        <p>{d.flat}</p>
+                        <p>{d.area}</p>
+                        <p>{d.town},{d.state} </p>
+                        <p>{d.phoneNumber}</p>
+                 
+                      </> )
+                     
+              })
+            }
+      
+                {/* <p>{dat.address[0].name}</p>
                 <p>{dat.address[0].flat}</p>
                 <p>{dat.address[0].area}</p>
                 <p>{dat.address[0].landmark}</p>
                 <p>{dat.address[0].town}  {dat.address[0].state}</p>
-                <p>{dat.address[0].phoneNumber}</p>
-              
+                <p>{dat.address[0].phoneNumber}</p> */}
+        
             
           </div>
           <div className="shopping_cart">
@@ -165,14 +191,14 @@ return(<>
          
 
            {dat.products.length==1?    <div className="pro">
-              <img src={ dat.products.map((d)=>{ return (d.image)})  } alt="" />
+              <img src={ dat.products.map((d:{image:string})=>{ return (d.image)})  } alt="" />
               <div className="order">
                 <h4>{dat.products[0].title}</h4>
                 <div className="price_for_payment_page">
-                  <p>{"₹ " +dat.products[0].price}</p>
+                  <p>{"₹ " + dat.products[0].price}</p>
                 </div>
               </div>
-            </div> : dat.products.map((d)=>{ 
+            </div> : dat.products.map((d: { image: string | undefined; title: string | number | boolean | ReactElement<unknown, string | JSXElementConstructor<unknown>> | Iterable<ReactNode> | ReactPortal | null | undefined; price: string; })=>{ 
             return (<>
             
             <div className="pro">

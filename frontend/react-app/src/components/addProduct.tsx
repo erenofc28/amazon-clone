@@ -1,5 +1,5 @@
 
-import { MouseEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './home.css'
 // import Prodcut from './prodcut';
 // import { useStateValue } from '../stateProvider';
@@ -44,8 +44,8 @@ callme()
 
 let energy = false;
 
-  const AddProductToDB=(e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>)=>{
-      e.preventDefault();
+  const AddProductToDB=()=>{
+ 
     if(title.length>0 && image.length>0 &&  price && rating)
     { 
         energy = true;
@@ -137,7 +137,7 @@ Rating
      
 
      
-     <button  className='continue' onClick={(e)=>{AddProductToDB(e)}}>Add Product</button>
+     <button  className='continue' onClick={()=>{AddProductToDB()}}>Add Product</button>
      
      </div>
 

@@ -83,14 +83,14 @@ const Checkout = () => {
 
       console.log("data", currUser);
       const myArray = imp.filter((dat:{email:string; }) => {
-        if (dat.email == currUser.email) {
+        if (dat.email == JSON.parse(localStorage.getItem("userInformation") || '{}').email) {
           return dat;
         }
       });
 
 
       console.log("crruser",myArray);
-
+   
       // dispatch({
       //   type:"ADD_TO_BASKET",
       //   item:{
@@ -106,7 +106,8 @@ const Checkout = () => {
 
 
     addToDb();
-  }, [currUser, imp]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const navigate = useNavigate();
   // const [{ basket }, dispatch] = useStateValue();
@@ -220,7 +221,7 @@ const Checkout = () => {
                       <p>{"₹" + dat.price}</p>
                       <button
                         onClick={() => {
-                          // remove(e, dat.id);
+                     
                           deleteItem(dat._id)
                           deleteItem(dat._id)
                         }}

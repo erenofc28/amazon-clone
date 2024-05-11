@@ -353,7 +353,8 @@ outline: none;
 width: 100%;
 height: 100%;
 border: solid black;
--webkit-mask-image: linear-gradient(
+
+   mask-image: linear-gradient(
     to bottom,
     rgba(0,0,0,2),
     rgba(0,0,0,0.95),
@@ -373,7 +374,7 @@ border: solid black;
     width: 100%;
     &:nth-child(1){
         /* display: none; */
-        -webkit-mask-image: linear-gradient(
+          mask-image: linear-gradient(
             to bottom,
              rgba(0, 0, 0, 2),
              rgba(0, 0, 0, 0.95),

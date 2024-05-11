@@ -1,4 +1,5 @@
-import { ExpansionPanelActions } from "@material-ui/core";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// import { ExpansionPanelActions } from "@material-ui/core";
 
 export const initialState = {
     basket:[],
@@ -12,7 +13,7 @@ export const initialState = {
 
 
 
-const reducer = (state,action) =>{
+const reducer = (state: { basket: Array<any>; },action: { type: unknown; item: unknown; id: unknown; address: unknown; name: unknown; email: unknown; }) =>{
     console.log("state",state)
 
     switch(action.type){
@@ -25,11 +26,13 @@ const reducer = (state,action) =>{
 
         case 'remove_from_basket':
 
+            // eslint-disable-next-line no-case-declarations
             const index = state.basket.findIndex(
                 (baskets)=> baskets.id == action.id
                 );
            console.log("index",index)
-            let newBasket = [...state.basket];
+            // eslint-disable-next-line no-case-declarations
+            const newBasket = [...state.basket];
           
 
             if(state.basket.length>=0)

@@ -30,7 +30,8 @@ const Login = () => {
     };
 
     callme();
-  }, [arrayFromDb]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   console.log("adad",arrayFromDb.map((d)=>{return d}))
 
