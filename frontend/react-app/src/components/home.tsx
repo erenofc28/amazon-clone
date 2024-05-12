@@ -3,6 +3,7 @@ import "./home.css";
 import Prodcut from "./prodcut";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
 
@@ -150,7 +151,6 @@ const Home = () => {
     callme();
 
     console.log("my new data fro add", myAccount);
-  
   }, [myAccount]);
 
   const paraHandler = (email: unknown) => {
@@ -203,8 +203,7 @@ const Home = () => {
 
   useEffect(() => {
     const check = () => {
-    
-      const json = localStorage.getItem("userInformation")
+      const json = localStorage.getItem("userInformation");
       if (!json) {
         localStorage.setItem(
           "userInformation",
@@ -288,10 +287,10 @@ const Home = () => {
             >
               {/* <button className="btn_for_logging_in"> */}
 
-              <a className="a_orders_1">Hello </a>
+              <Link className="a_orders_1" to={""}>Hello </Link>
               {JSON.parse(localStorage.getItem("userInformation") || "{}") ? (
-                <a
-                  href=""
+                <Link
+                  to=""
                   onClick={() => {
                     JSON.parse(localStorage.getItem("userInformation") || "{}")
                       .name == "Guest"
@@ -310,23 +309,23 @@ const Home = () => {
                     JSON.parse(localStorage.getItem("userInformation") || "{}")
                       .name
                   }
-                </a>
+                </Link>
               ) : (
-                <a href="/login" className="a_orders_2">
+                <Link to="/login" className="a_orders_2">
                   guest
-                </a>
+                </Link>
               )}
             </div>
 
             <div className="orders">
               {/* <p className="first_p">Your</p> */}
               {/* <p className="second_p">Orders</p> */}
-              <a href="" className="a_orders_1">
+              <Link to="" className="a_orders_1">
                 Your{" "}
-              </a>
+              </Link>
               {JSON.parse(localStorage.getItem("userInformation") || "{}") ? (
-                <a
-                  href={
+                <Link
+                  to={
                     JSON.parse(localStorage.getItem("userInformation") || "{}")
                       .name == "Guest"
                       ? "/"
@@ -335,16 +334,16 @@ const Home = () => {
                   className="a_orders_2"
                 >
                   Orders{" "}
-                </a>
+                </Link>
               ) : (
-                <a href={"/"} className="a_orders_2">
+                <Link to={"/"} className="a_orders_2">
                   Orders{" "}
-                </a>
+                </Link>
               )}
             </div>
 
             <div className="basket">
-              <a href=""> </a>
+              <Link to=""> </Link>
               <button
                 className="basket_btn"
                 onClick={() => {
@@ -383,36 +382,43 @@ const Home = () => {
 
         <div className="banner">
           <img src="../../public/banner.jpg" alt="" />
-          <img src="../../public/mobile_banner.jpg" alt="" />
+          <img src="/mobile_banner.jpg" alt="" />
         </div>
         <div className="grid_body">
-          {myData2?myData2.map((da,index) => {
-            return (
-              <>
-                <Prodcut
-                  key={index}
-                  image={da.image}
-                  title={da.title}
-                  price={Number(da.price)}
-                  ratings={Number(da.ratings)}
-                  id={da.id}
-                  paraHandler={paraHandler}
-                />
-              </>
-            );
-          }):<></>}
+          {myData2 ? (
+            myData2.map((da, index) => {
+              return (
+                <>
+                  <Prodcut
+                    key={index}
+                    image={da.image}
+                    title={da.title}
+                    price={Number(da.price)}
+                    ratings={Number(da.ratings)}
+                    id={da.id}
+                    paraHandler={paraHandler}
+                  />
+                </>
+              );
+            })
+          ) : (
+            <></>
+          )}
 
           {newData.length > 0 ? (
             newData.map(
-              (da: {
-                image: string;
-                title: string;
-                price: number;
-                rating: number;
-                _id: string;
-              },index) => {
-              console.log("im here");
-              
+              (
+                da: {
+                  image: string;
+                  title: string;
+                  price: number;
+                  rating: number;
+                  _id: string;
+                },
+                index
+              ) => {
+                console.log("im here");
+
                 return (
                   <>
                     <Prodcut
@@ -429,9 +435,7 @@ const Home = () => {
               }
             )
           ) : (
-          
-            
-            <> {console.log('nothin is here')}</>
+            <> {console.log("nothin is here")}</>
           )}
         </div>
       </div>

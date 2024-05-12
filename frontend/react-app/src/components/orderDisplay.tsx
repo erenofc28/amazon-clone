@@ -4,6 +4,7 @@ import "./home.css";
 // import Prodcut from "./prodcut";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const OrderDisplay = () => {
   const navigate = useNavigate();
   const [cartFromDb, setCartFromDb] = useState([]);
@@ -88,19 +89,26 @@ const OrderDisplay = () => {
             </div>
 
             <div className="orders">
-              <a href="" className="a_orders_1">
+            <Link to="" className="a_orders_1">
                 Your{" "}
-              </a>
-              <a
-                href={
-                  JSON.parse(localStorage.getItem("userInformation")|| '{}')
-                    ? "orders"
-                    : "/"
-                }
-                className="a_orders_2"
-              >
-                Orders{" "}
-              </a>
+              </Link>
+              {JSON.parse(localStorage.getItem("userInformation") || "{}") ? (
+                <Link
+                  to={
+                    JSON.parse(localStorage.getItem("userInformation") || "{}")
+                      .name == "Guest"
+                      ? "/"
+                      : "/orders"
+                  }
+                  className="a_orders_2"
+                >
+                  Orders{" "}
+                </Link>
+              ) : (
+                <Link to={"/"} className="a_orders_2">
+                  Orders{" "}
+                </Link>
+              )}
             </div>
             <div className="basket">
               <a href=""> </a>

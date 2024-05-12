@@ -4,6 +4,7 @@ import './home.css'
 // import { useStateValue } from '../stateProvider';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Address = () => {
     // const [{basket}, dispatch ] = useStateValue();
@@ -135,9 +136,26 @@ const result =()=>{
 </div>
 
 <div className="orders">
-<a href="" className="a_orders_1">Your </a>    
-        <a href={JSON.parse(localStorage.getItem("userInformation") || '{}')?"orders":"/"} className="a_orders_2">Orders  </a>    
-             
+<Link to="" className="a_orders_1">
+                Your{" "}
+              </Link>
+              {JSON.parse(localStorage.getItem("userInformation") || "{}") ? (
+                <Link
+                  to={
+                    JSON.parse(localStorage.getItem("userInformation") || "{}")
+                      .name == "Guest"
+                      ? "/"
+                      : "/orders"
+                  }
+                  className="a_orders_2"
+                >
+                  Orders{" "}
+                </Link>
+              ) : (
+                <Link to={"/"} className="a_orders_2">
+                  Orders{" "}
+                </Link>
+              )}
       </div>
 
 <div className="basket">
@@ -171,7 +189,7 @@ const result =()=>{
      />
 
    <label htmlFor="">Phone Number</label>
-   <input type='text'
+   <input type='number'
     onChange={(e)=>{setNumber(e.target.value)}} 
     />
 

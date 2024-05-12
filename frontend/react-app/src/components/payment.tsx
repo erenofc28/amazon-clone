@@ -6,6 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { CardElement,} from "@stripe/react-stripe-js";
 
 import axios from "axios";
+import { Link } from "react-router-dom";
+
+
+
 // import { Alert } from "@material-ui/lab";
 const Payment = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -230,9 +234,26 @@ console.log(productToBeUpdated);
             </div>
 
             <div className="orders">
-            <a href="" className="a_orders_1">Your </a>    
-        <a href={JSON.parse(localStorage.getItem("userInformation")  || '{}')?"orders":"/"} className="a_orders_2">Orders  </a>    
-             
+            <Link to="" className="a_orders_1">
+                Your{" "}
+              </Link>
+              {JSON.parse(localStorage.getItem("userInformation") || "{}") ? (
+                <Link
+                  to={
+                    JSON.parse(localStorage.getItem("userInformation") || "{}")
+                      .name == "Guest"
+                      ? "/"
+                      : "/orders"
+                  }
+                  className="a_orders_2"
+                >
+                  Orders{" "}
+                </Link>
+              ) : (
+                <Link to={"/"} className="a_orders_2">
+                  Orders{" "}
+                </Link>
+              )}
             </div>
 
             <div className="basket">
